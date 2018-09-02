@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+</head>
+
+<body>
+  <h1>Hello World!</h1>
+  <!-- All of the Node.js APIs are available in this renderer process. -->
+  We are using Node.js
+  <script>document.write(process.versions.node)</script>, Chromium
+  <script>document.write(process.versions.chrome)</script>, and Electron
+  <script>document.write(process.versions.electron)</script>.
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+
+
+    const ref = require('ref')
+    var ffi = require('ffi')
+
+    var libfactorial = ffi.Library('./dll/libfactorial.dll', {
+      'factorial': ['uint64', ['int']]
+    })
+
+    var upin = ffi.Library('./dll/USB_UPIN-64.dll', {
+      'DeviceList': ['int', ['int', 'int']]
+    })
+
+    if (process.argv.length < 3) {
+      console.log('Arguments: ' + process.argv[0] + ' ' + process.argv[1] + ' <max>')
+      process.exit()
+    }
+
+    // var output = libfactorial.factorial(parseInt(process.argv[2]))
+
+    var output = libfactorial.factorial(5)
+    console.log('Your output: ' + output)
+
+  </script>
+</body>
+
+</html>
